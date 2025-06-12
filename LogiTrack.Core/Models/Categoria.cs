@@ -17,7 +17,6 @@ namespace LogiTrack.Core.Models
 
         [StringLength(200, ErrorMessage = "Descrição deve ter no máximo 200 caracteres")]
         public string Descricao { get; set; } = string.Empty;
-
         public bool Ativa { get; set; } = true;
         public virtual ICollection<Produto> Produtos { get; set; } = new List<Produto>();
     }
