@@ -40,10 +40,9 @@ namespace LogiTrack.Core.Models
 
         public bool Ativo { get; set; } = true;
 
-        // Propriedades calculadas
         public decimal ValorTotalEstoque => Preco * QuantidadeEstoque;
 
-        public bool EstoqueBaixo => QuantidadeEstoque <= 10; // Limite mínimo configurável
+        public bool EstoqueBaixo => QuantidadeEstoque <= 10; 
     }
 }
-}
+

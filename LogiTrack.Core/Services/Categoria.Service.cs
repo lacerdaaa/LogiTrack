@@ -3,83 +3,83 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LogiTrack.Core.Data;
 using LogiTrack.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace LogiTrack.Core.Services
 {
     public class CategoriaService : ICategoriaService
     {
-        private static List<Categoria> _categorias = new List<Categoria>();
-        private static int _proximoId = 1;
+        private readonly EstoqueDbContext _context;
 
-        public CategoriaService()
+        public CategoriaService(EstoqueDbContext context)
         {
-            // Dados de exemplo para teste
-            if (_categorias.Count == 0)
+            _context = context;
+        }
+
+        public async Task<IEnumerable<Categoria>> ObterTodasAsync()
+        {
+            return await _context.Categorias
+                .OrderBy(c => c.Nome)
+                .ToListAsync();
+        }
+
+        public async Task<Categoria?> ObterPorIdAsync(int id)
+        {
+            return await _context.Categorias.FindAsync(id);
+        }
+
+        public async Task<Categoria> AdicionarAsync(Categoria categoria)
+        {
+            _context.Categorias.Add(categoria);
+            await _context.SaveChangesAsync();
+            return categoria;
+        }
+
+        public async Task<Categoria> AtualizarAsync(Categoria categoria)
+        {
+            var categoriaExistente = await _context.Categorias.FindAsync(categoria.Id);
+            if (categoriaExistente == null)
+                throw new ArgumentException("Categoria não encontrada");
+
+            categoriaExistente.Nome = categoria.Nome;
+            categoriaExistente.Descricao = categoria.Descricao;
+            categoriaExistente.Ativa = categoria.Ativa;
+
+            await _context.SaveChangesAsync();
+            return categoriaExistente;
+        }
+
+        public async Task<bool> ExcluirAsync(int id)
+        {
+            var categoria = await _context.Categorias.FindAsync(id);
+            if (categoria == null)
+                return false;
+
+            var temProdutos = await _context.Produtos
+                .AnyAsync(p => p.CategoriaId == id && p.Ativo);
+
+            if (temProdutos)
             {
-                InicializarDadosExemplo();
+                categoria.Ativa = false;
+                await _context.SaveChangesAsync();
             }
-        }
-
-        public Task<IEnumerable<Categoria>> ObterTodasAsync()
-        {
-            return Task.FromResult(_categorias.AsEnumerable());
-        }
-
-        public Task<Categoria?> ObterPorIdAsync(int id)
-        {
-            var categoria = _categorias.FirstOrDefault(c => c.Id == id);
-            return Task.FromResult(categoria);
-        }
-
-        public Task<Categoria> AdicionarAsync(Categoria categoria)
-        {
-            categoria.Id = _proximoId++;
-            _categorias.Add(categoria);
-            return Task.FromResult(categoria);
-        }
-
-        public Task<Categoria> AtualizarAsync(Categoria categoria)
-        {
-            var categoriaExistente = _categorias.FirstOrDefault(c => c.Id == categoria.Id);
-            if (categoriaExistente != null)
+            else
             {
-                categoriaExistente.Nome = categoria.Nome;
-                categoriaExistente.Descricao = categoria.Descricao;
-                categoriaExistente.Ativa = categoria.Ativa;
-                return Task.FromResult(categoriaExistente);
+                _context.Categorias.Remove(categoria);
+                await _context.SaveChangesAsync();
             }
-            throw new ArgumentException("Categoria não encontrada");
+
+            return true;
         }
 
-        public Task<bool> ExcluirAsync(int id)
+        public async Task<IEnumerable<Categoria>> ObterAtivasAsync()
         {
-            var categoria = _categorias.FirstOrDefault(c => c.Id == id);
-            if (categoria != null)
-            {
-                _categorias.Remove(categoria);
-                return Task.FromResult(true);
-            }
-            return Task.FromResult(false);
-        }
-
-        public Task<IEnumerable<Categoria>> ObterAtivasAsync()
-        {
-            var categoriasAtivas = _categorias.Where(c => c.Ativa);
-            return Task.FromResult(categoriasAtivas);
-        }
-
-        private void InicializarDadosExemplo()
-        {
-            var categorias = new List<Categoria>
-            {
-                new Categoria { Id = _proximoId++, Nome = "Eletrônicos", Descricao = "Produtos eletrônicos e informática", Ativa = true },
-                new Categoria { Id = _proximoId++, Nome = "Papelaria", Descricao = "Materiais de escritório e papelaria", Ativa = true },
-                new Categoria { Id = _proximoId++, Nome = "Casa e Jardim", Descricao = "Produtos para casa e jardim", Ativa = true },
-                new Categoria { Id = _proximoId++, Nome = "Roupas", Descricao = "Vestuário em geral", Ativa = true }
-            };
-
-            _categorias.AddRange(categorias);
+            return await _context.Categorias
+                .Where(c => c.Ativa)
+                .OrderBy(c => c.Nome)
+                .ToListAsync();
         }
     }
 }
