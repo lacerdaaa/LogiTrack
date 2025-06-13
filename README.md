@@ -646,15 +646,3 @@ public async Task<(bool Sucesso, List<string> Erros)> ValidarEAdicionarProduto(P
 ```
 
 
-## 📝 Changelog
-
-### Versão 1.0.0
-- ✅ Implementação inicial dos models
-- ✅ Serviços com Entity Framework
-- ✅ Configuração MySQL/MariaDB
-- ✅ Dados iniciais (Seed Data)
-- ✅ Validações com Data Annotations
-- ✅ Soft Delete implementado
-- ✅ Relacionamentos bem definidos
-
-
