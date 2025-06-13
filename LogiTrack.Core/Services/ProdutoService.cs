@@ -40,7 +40,6 @@ namespace LogiTrack.Core.Services
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
 
-            // Recarregar com a categoria
             return await ObterPorIdAsync(produto.Id) ?? produto;
         }
 
