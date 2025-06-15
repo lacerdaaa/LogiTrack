@@ -47,7 +47,6 @@ namespace LogiTrack.Web.Models
 
         public bool Ativo { get; set; }
 
-        // Propriedades calculadas
         [Display(Name = "Valor Total em Estoque")]
         [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = false)]
         public decimal ValorTotalEstoque => Preco * QuantidadeEstoque;
