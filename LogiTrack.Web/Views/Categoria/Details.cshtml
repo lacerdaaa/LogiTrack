@@ -1,0 +1,133 @@
+﻿@model LogiTrack.Web.Models.CategoriaViewModel
+@{
+    ViewData["Title"] = "Detalhes da Categoria";
+}
+
+<div class="row mt-4">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-controller="Home" asp-action="Index">Início</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a asp-action="Index">Categorias</a>
+                </li>
+                <li class="breadcrumb-item active">@Model.Nome</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">
+                    <i class="bi bi-info-circle"></i> Detalhes da Categoria
+                </h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Nome):</dt>
+                    <dd class="col-sm-9">
+                        <strong>@Html.DisplayFor(model => model.Nome)</strong>
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Descricao):</dt>
+                    <dd class="col-sm-9">
+                        @if (!string.IsNullOrEmpty(Model.Descricao))
+                        {
+                            @Html.DisplayFor(model => model.Descricao)
+                        }
+                        else
+                        {
+                            <em class="text-muted">Sem descrição</em>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Ativa):</dt>
+                    <dd class="col-sm-9">
+                        @if (Model.Ativa)
+                        {
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle"></i> Ativa
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                <i class="bi bi-x-circle"></i> Inativa
+                            </span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.QuantidadeProdutos):</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-info fs-6">
+                            @Model.QuantidadeProdutos produto(s)
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <!-- Card de ações -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="bi bi-gear"></i> Ações
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <i class="bi bi-pencil"></i> Editar Categoria
+                    </a>
+
+                    @if (Model.QuantidadeProdutos == 0)
+                    {
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Excluir Categoria
+                        </a>
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-secondary" disabled title="Categoria possui produtos associados">
+                            <i class="bi bi-trash"></i> Não é possível excluir
+                        </button>
+                    }
+
+                    <a asp-controller="Produto" asp-action="Index" class="btn btn-info">
+                        <i class="bi bi-box"></i> Ver Produtos desta Categoria
+                    </a>
+
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar à Lista
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de estatísticas -->
+        @if (Model.QuantidadeProdutos > 0)
+        {
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-bar-chart"></i> Estatísticas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="bi bi-box display-4 text-primary"></i>
+                        <h4 class="text-primary mt-2">@Model.QuantidadeProdutos</h4>
+                        <p class="text-muted">produtos nesta categoria</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
