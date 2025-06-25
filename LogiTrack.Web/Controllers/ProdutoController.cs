@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using LogiTrack.Core.Services;
 using LogiTrack.Core.Models;
 using LogiTrack.Web.Models;
+using LogiTrack.Core.Services.Interfaces;
 
 namespace LogiTrack.Web.Controllers
 {

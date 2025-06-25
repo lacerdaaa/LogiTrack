@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogiTrack.Core.Models;
 
-namespace LogiTrack.Core.Services
+namespace LogiTrack.Core.Services.Interfaces
 {
     public interface ICategoriaService
     {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace LogiTrack.Web.Pages.Home
+namespace LogiTrack.Web.Pages
 {
     public class IndexModel : PageModel
     {

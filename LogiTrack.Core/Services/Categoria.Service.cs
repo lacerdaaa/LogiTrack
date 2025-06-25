@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LogiTrack.Core.Data;
 using LogiTrack.Core.Models;
+using LogiTrack.Core.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogiTrack.Core.Services

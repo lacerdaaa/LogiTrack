@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using LogiTrack.Core.Services;
+using LogiTrack.Core.Services.Interfaces;
 
 namespace LogiTrack.Web.Controllers
 {

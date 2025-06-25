@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LogiTrack.Core.Data;
 using LogiTrack.Core.Services;
+using LogiTrack.Core.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Garantir que o banco existe
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<EstoqueDbContext>();
