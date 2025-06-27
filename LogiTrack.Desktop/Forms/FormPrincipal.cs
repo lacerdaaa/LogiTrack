@@ -149,9 +149,9 @@ namespace LogiTrack.Desktop.Forms
             PerformLayout();
         }
 
-        private void relatóriosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void relatóriosToolStripMenuItem_Click(object? sender, EventArgs e)
         {
-
+            // Seu código aqui
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
